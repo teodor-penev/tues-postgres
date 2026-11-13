@@ -1,1 +1,6 @@
 # tues-postgres
+
+Assignment 1: The Class Bookshelf
+Decisions I made and why
+
+I used three tables, books, students and loans, because a loan is its own event (one student, one book, one date) and keeping it in a separate table lets a student borrow many books and the same book be borrowed by different students over time. Every table has an id primary key, and loans.book_id and loans.student_id are foreign keys, so the database refuses a loan for a book or a student that does not exist. Because there is only one copy of each book, I added a unique index on loans(book_id) that only applies while returned_on IS NULL, so a book can never be out to two people at once, and a CHECK so a book cannot be returned before it was taken. I deliberately do not store a "returned" yes/no column (an empty returned_on already means the book is still out, so the two could never contradict each other) or an "overdue" or due-date column (it is calculated from taken_on and CURRENT_DATE, so it is never out of date), and I left out things the task does not ask for, like ISBN, genre or student emails.
